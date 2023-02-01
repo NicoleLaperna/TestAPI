@@ -9,5 +9,9 @@ public interface JokeService {
 	public String invokePostApi(Joke joke);
 	
 	public String invokeGetApiSingle(int id);
+	
+	public boolean deleteApi(int id);
+	
+	public String putApi(Joke joke);
 
 }

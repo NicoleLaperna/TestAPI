@@ -1,5 +1,10 @@
 package com.enway.service.impl;
 
+
+import java.util.List;
+
+import javax.persistence.Entity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -48,5 +53,30 @@ public class JokeServiceImpl implements JokeService{
 		
 		return responseObject.toString();
 	}
-
+	
+	public boolean deleteApi(int id) {
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "http://localhost:3307/deleteJoke";
+		if(id!=0) {
+			url+=("?id=" + id);
+			restTemplate.delete(url, Joke.class);
+			return true;
+		}else {
+			return false;
+		}		
+	}
+	public String putApi(Joke joke) {
+		RestTemplate restTemplate = new RestTemplate();
+		
+		String url = "http://localhost:3307/alterJoke";
+		
+		HttpEntity<Joke> entity = new HttpEntity<>(joke);
+		
+		ResponseEntity<Joke> response = restTemplate.exchange(
+			    url, HttpMethod.PUT, entity, Joke.class);
+		
+		Joke responseObject = response.getBody();
+		
+		return invokeGetApi();
+	}
 }
